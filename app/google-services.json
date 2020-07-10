@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "812449328806",
+    "firebase_url": "https://sampleboilerplate.firebaseio.com",
+    "project_id": "sampleboilerplate",
+    "storage_bucket": "sampleboilerplate.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:812449328806:android:e158965b25346f7ad2ce67",
+        "android_client_info": {
+          "package_name": "com.appyhigh.sampleboilerplateapplication"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "812449328806-j6patb37nqih9aqbkffcvht069k1d7uj.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDm6AUytQXv1d2XH6TIzcakk9s9ba6OSgo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "812449328806-j6patb37nqih9aqbkffcvht069k1d7uj.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
