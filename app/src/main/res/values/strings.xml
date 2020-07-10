@@ -1,3 +1,12 @@
 <resources>
     <string name="app_name">SampleBoilerplateApplication</string>
+    <string name="appyhigh">AppyHigh</string>
+    <string name="add_app_id">ca-app-pub-3624630737541250~2038881612</string>
+    <string name="intertitialId">ca-app-pub-3624630737541250/3160391592</string>
+    <string name="bannerSmallId">ca-app-pub-3624630737541250/9687746277</string>
+
+
+    <string name="interstitial_test_id">ca-app-pub-3940256099942544/1033173712</string>
+    <string name="banner_test_id">ca-app-pub-3940256099942544/6300978111</string>
+    <string name="app_test_id">ca-app-pub-3940256099942544~3347511713</string>
 </resources>
