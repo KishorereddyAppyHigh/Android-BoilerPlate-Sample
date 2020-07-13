@@ -21,8 +21,15 @@
             </intent-filter>
         </activity>
         <activity android:name=".MainActivity"
+            android:windowSoftInputMode="adjustResize"
             android:theme="@style/AppThemeNoActionBar">
-
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <data android:host="example.com" android:scheme="http"/>
+                <data android:host="example.com" android:scheme="https"/>
+            </intent-filter>
         </activity>
 
         <service android:name=".notifications.NotificationService"
