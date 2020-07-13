@@ -34,20 +34,63 @@ public class SplashActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_spalash);
-        Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
+//        Handler handler = new Handler();
+//        handler.postDelayed(new Runnable() {
+//            @Override
+//            public void run() {
+//                nextActivity();
+//            }
+//        },1500);
+        loadInterstitialAdd();
+        sharedPreferenceUtil = new SharedPreferenceUtil(this);
+        getRemoteConfig();
+    }
+
+    private void loadInterstitialAdd() {
+        interstitialAd = new InterstitialAd(this);
+
+        if (BuildConfig.DEBUG) {
+            interstitialAd.setAdUnitId(getString(R.string.interstitial_test_id));
+        } else {
+            interstitialAd.setAdUnitId(getString(R.string.intertitialId));
+        }
+        //interstitialAd.loadAd(new AdRequest.Builder().build());
+
+        interstitialAd.setAdListener(new AdListener() {
             @Override
-            public void run() {
+            public void onAdLoaded() {
+                super.onAdLoaded();
+                interstitialAd.show();
+            }
+
+            @Override
+            public void onAdClicked() {
+                super.onAdClicked();
+            }
+
+            @Override
+            public void onAdClosed() {
+                super.onAdClosed();
                 nextActivity();
             }
-        },1500);
-        //getRemoteConfig();
+
+            @Override
+            public void onAdFailedToLoad(int i) {
+                super.onAdFailedToLoad(i);
+                nextActivity();
+            }
+
+            @Override
+            public void onAdOpened() {
+                super.onAdOpened();
+            }
+        });
     }
 
     private void getRemoteConfig() {
         firebaseRemoteConfig = FirebaseRemoteConfig.getInstance();
         FirebaseRemoteConfigSettings firebaseRemoteConfigSettings = new FirebaseRemoteConfigSettings.Builder()
-                .setMinimumFetchIntervalInSeconds(420)
+                .setMinimumFetchIntervalInSeconds(1500)
                 .build();
         firebaseRemoteConfig.setConfigSettingsAsync(firebaseRemoteConfigSettings);
         firebaseRemoteConfig.setDefaultsAsync(R.xml.remote_config_defaults);
@@ -55,17 +98,16 @@ public class SplashActivity extends AppCompatActivity {
                 .addOnCompleteListener(this, new OnCompleteListener<Boolean>() {
                     @Override
                     public void onComplete(@NonNull Task<Boolean> task) {
-                        if (task.isSuccessful())
-                        {
+                        if (task.isSuccessful()) {
                             boolean updated = task.getResult();
                             firebaseRemoteConfig.activate();
                         }
                         showAdsString = firebaseRemoteConfig.getString("display_ads");
                         showAds = showAdsString.equals("yes");
-                        sharedPreferenceUtil.saveBoolean("ADS",showAds);
-                        if (!showAds) {
+                        sharedPreferenceUtil.saveBoolean("ADS", showAds);
+                        if (showAds) {
                             interstitialAd.loadAd(new AdRequest.Builder().build());
-                        } else {
+                        }else {
                             nextActivity();
                         }
                     }
@@ -73,8 +115,8 @@ public class SplashActivity extends AppCompatActivity {
 
     }
 
-    public void nextActivity(){
-        startActivity(new Intent(this,MainActivity.class));
+    public void nextActivity() {
+        startActivity(new Intent(this, MainActivity.class));
         finish();
     }
 //
