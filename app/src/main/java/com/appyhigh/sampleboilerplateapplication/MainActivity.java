@@ -12,6 +12,7 @@ import android.content.Context;
 import android.hardware.input.InputManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
@@ -56,6 +57,7 @@ public class MainActivity extends AppCompatActivity {
     private InterstitialAd interstitialAd;
     private FirebaseAnalytics firebaseAnalytics;
     private FirebaseFirestore firebaseFirestore;
+    boolean doubleBackToExitPressedOnce = false;
     //private DocumentReference documentReference = firebaseFirestore.collection("NoteBook").document("Note");
     private AdView adView;
 
@@ -95,11 +97,36 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    @Override
+    public void onBackPressed() {
+        if (doubleBackToExitPressedOnce){
+            super.onBackPressed();
+            return;
+        }
+        this.doubleBackToExitPressedOnce = true;
+        Toast.makeText(this, "Press Back Button to Exit ", Toast.LENGTH_SHORT).show();
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                doubleBackToExitPressedOnce = false;
+            }
+        },5000);
+    }
 
     private void saveNotes() {
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (titleEditText.getText().toString().isEmpty()){
+                    titleEditText.setError("Title Cannot Be Empty ");
+                    return;
+                }
+                if (descriptionEditText.getText().toString().isEmpty()){
+                    descriptionEditText.setError("Description Cannot Be Empty");
+                    return;
+                }
+                titleEditText.setError(null);
+                descriptionEditText.setError(null);
                 String title = titleEditText.getText().toString();
                 String description = descriptionEditText.getText().toString();
                 Notes notes = new Notes(title, description);
