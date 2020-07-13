@@ -9,4 +9,7 @@
     <string name="interstitial_test_id">ca-app-pub-3940256099942544/1033173712</string>
     <string name="banner_test_id">ca-app-pub-3940256099942544/6300978111</string>
     <string name="app_test_id">ca-app-pub-3940256099942544~3347511713</string>
+    <string name="enter_title">Enter Title</string>
+    <string name="enterdescription">EnterDescription</string>
+    <string name="save">Save</string>
 </resources>
