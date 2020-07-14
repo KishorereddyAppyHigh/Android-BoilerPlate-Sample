@@ -29,6 +29,7 @@ import com.google.android.gms.ads.AdSize;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.InterstitialAd;
 import com.google.android.gms.ads.MobileAds;
+import com.google.android.gms.ads.RequestConfiguration;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -45,6 +46,9 @@ import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.inappmessaging.FirebaseInAppMessaging;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.messaging.FirebaseMessagingService;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
     private EditText titleEditText, descriptionEditText;
@@ -221,12 +225,14 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void loadBannerAdd() {
+        List<String> testDevices = new ArrayList<>();
+        testDevices.add(AdRequest.DEVICE_ID_EMULATOR);
+        testDevices.add("2D1A1ED41BC6E3DFBC9B9C5CAF0D2E27");
+        RequestConfiguration requestConfiguration = new RequestConfiguration.Builder()
+                .setTestDeviceIds(testDevices)
+                .build();
+        MobileAds.setRequestConfiguration(requestConfiguration);
         AdRequest adRequest = new AdRequest.Builder().build();
-//        if (BuildConfig.DEBUG) {
-//            adView.setAdUnitId(getString(R.string.banner_test_id));
-//        } else {
-//            adView.setAdUnitId(getString(R.string.bannerSmallId));
-//        }
         adView.loadAd(adRequest);
         adView.setAdListener(new AdListener() {
             @Override
