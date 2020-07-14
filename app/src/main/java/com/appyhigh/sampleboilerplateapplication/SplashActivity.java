@@ -13,6 +13,7 @@ import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.InterstitialAd;
 import com.google.android.gms.ads.MobileAds;
+import com.google.android.gms.ads.RequestConfiguration;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.play.core.appupdate.AppUpdateInfo;
@@ -22,6 +23,9 @@ import com.google.android.play.core.install.model.AppUpdateType;
 import com.google.android.play.core.install.model.UpdateAvailability;
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig;
 import com.google.firebase.remoteconfig.FirebaseRemoteConfigSettings;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class SplashActivity extends AppCompatActivity {
     private boolean showAds = true;
@@ -106,6 +110,13 @@ public class SplashActivity extends AppCompatActivity {
                         showAds = showAdsString.equals("yes");
                         sharedPreferenceUtil.saveBoolean("ADS", showAds);
                         if (showAds) {
+                            List<String> testDevices = new ArrayList<>();
+                            testDevices.add(AdRequest.DEVICE_ID_EMULATOR);
+                            testDevices.add("2D1A1ED41BC6E3DFBC9B9C5CAF0D2E27");
+                            RequestConfiguration requestConfiguration = new RequestConfiguration.Builder()
+                                    .setTestDeviceIds(testDevices)
+                                    .build();
+                            MobileAds.setRequestConfiguration(requestConfiguration);
                             interstitialAd.loadAd(new AdRequest.Builder().build());
                         }else {
                             nextActivity();
