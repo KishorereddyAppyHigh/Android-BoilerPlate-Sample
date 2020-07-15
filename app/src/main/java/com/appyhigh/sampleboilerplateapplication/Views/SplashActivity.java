@@ -1,4 +1,4 @@
-package com.appyhigh.sampleboilerplateapplication;
+package com.appyhigh.sampleboilerplateapplication.Views;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -8,6 +8,8 @@ import android.content.IntentSender;
 import android.os.Bundle;
 import android.os.Handler;
 
+import com.appyhigh.sampleboilerplateapplication.BuildConfig;
+import com.appyhigh.sampleboilerplateapplication.R;
 import com.appyhigh.sampleboilerplateapplication.utility.SharedPreferenceUtil;
 import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
