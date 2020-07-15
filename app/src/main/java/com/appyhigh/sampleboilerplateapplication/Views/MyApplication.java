@@ -1,4 +1,4 @@
-package com.appyhigh.sampleboilerplateapplication;
+package com.appyhigh.sampleboilerplateapplication.Views;
 
 import android.app.Application;
 
