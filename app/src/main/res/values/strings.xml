@@ -12,4 +12,15 @@
     <string name="enter_title">Enter Title</string>
     <string name="enterdescription">EnterDescription</string>
     <string name="save">Save</string>
+    <string name="getnews">GetNews</string>
+
+    <array name="countryNames">
+        <item>INDIA</item>
+        <item>USA</item>
+        <item>CANADA</item>
+        <item>UK</item>
+        <item>AUSTRALIA</item>
+    </array>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
