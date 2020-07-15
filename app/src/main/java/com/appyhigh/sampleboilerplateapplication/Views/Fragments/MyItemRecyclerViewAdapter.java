@@ -35,14 +35,14 @@ import java.util.List;
  */
 public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-    private final List<Article> articles;
+    private  List<Article> articles;
     private Context context;
     private NewsItemClickListener newsItemClickListener;
 
 
     public MyItemRecyclerViewAdapter(List<Article> items , Context context) {
         this.context = context;
-        articles = items;
+        this.articles = items;
     }
 
     @Override
@@ -91,6 +91,11 @@ public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
         return articles.size();
     }
 
+    public void updateNews(List<Article> list){
+        this.articles = list;
+        notifyDataSetChanged();
+    }
+
     public void setOnclickListener(NewsItemClickListener newsItemClickListener){
         this.newsItemClickListener = newsItemClickListener;
     }
@@ -104,8 +109,8 @@ public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
         public NewsViewHolder(View view) {
             super(view);
             mView = view;
-            title = (TextView) view.findViewById(R.id.title);
-            desc = (TextView) view.findViewById(R.id.desc);
+            title = view.findViewById(R.id.title);
+            desc = view.findViewById(R.id.desc);
             author = view.findViewById(R.id.author);
             source = view.findViewById(R.id.source);
             time = view.findViewById(R.id.time);
@@ -115,7 +120,7 @@ public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
                 @Override
                 public void onClick(View v) {
                     int position  = getAdapterPosition();
-                    if (newsItemClickListener != null && position != RecyclerView.NO_POSITION){
+                    if (newsItemClickListener != null ){
                         newsItemClickListener.onItemClick(v , position);
                     }
                 }
