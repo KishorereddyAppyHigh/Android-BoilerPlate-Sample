@@ -1,4 +1,4 @@
-package com.appyhigh.sampleboilerplateapplication;
+package com.appyhigh.sampleboilerplateapplication.Views;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -9,6 +9,7 @@ import androidx.viewpager.widget.ViewPager;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.content.Context;
+import android.content.Intent;
 import android.hardware.input.InputManager;
 import android.net.Uri;
 import android.os.Bundle;
@@ -20,6 +21,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.appyhigh.sampleboilerplateapplication.R;
 import com.appyhigh.sampleboilerplateapplication.notifications.NotificationService;
 import com.appyhigh.sampleboilerplateapplication.utility.Notes;
 import com.appyhigh.sampleboilerplateapplication.utility.SharedPreferenceUtil;
@@ -52,7 +54,7 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
     private EditText titleEditText, descriptionEditText;
-    private Button saveButton;
+    private Button saveButton,getNewsButton;
     private TextView notesTextView;
     private CoordinatorLayout coordinatorLayout;
     public static final String channel = "MyNotifications";
@@ -75,6 +77,7 @@ public class MainActivity extends AppCompatActivity {
         coordinatorLayout = findViewById(R.id.coordinatorLayout);
         descriptionEditText = findViewById(R.id.descriptionEditText);
         saveButton = findViewById(R.id.saveButton);
+        getNewsButton = findViewById(R.id.getNewsButton);
         notesTextView = findViewById(R.id.textView);
         sharedPreferenceUtil = new SharedPreferenceUtil(this);
         firebaseAnalytics = FirebaseAnalytics.getInstance(this);
@@ -87,7 +90,17 @@ public class MainActivity extends AppCompatActivity {
         createNotification();
         checkForDynamicLinks();
         saveNotes();
+        setOnGetNotesClickListener();
         hideKeyBoardWhenClickOutsideView();
+    }
+
+    private void setOnGetNotesClickListener() {
+        getNewsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this , GetNewsActivity.class));
+            }
+        });
     }
 
     private void hideKeyBoardWhenClickOutsideView() {
