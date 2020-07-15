@@ -62,8 +62,11 @@ public class ItemFragment extends Fragment {
         recyclerView = view.findViewById(R.id.newsRecyclerView);
         layoutManager = new LinearLayoutManager(requireContext());
         recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setHasFixedSize(true);
         recyclerView.setNestedScrollingEnabled(false);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
+        myItemRecyclerViewAdapter = new MyItemRecyclerViewAdapter(articleList , requireContext());
+        recyclerView.setAdapter(myItemRecyclerViewAdapter);
         return view;
     }
 
@@ -71,25 +74,22 @@ public class ItemFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         loadJson();
-    }
-
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
         setOnItemClickListener();
     }
+
 
     private void setOnItemClickListener() {
         myItemRecyclerViewAdapter.setOnclickListener(new NewsItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                FragmentTransaction fragmentTransaction = getParentFragment().getFragmentManager().beginTransaction();
+                FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
                 WebViewFragment webViewFragment = new WebViewFragment();
                 Bundle bundle = new Bundle();
-                Article article = (Article) view.getTag();
+                Article article = articleList.get(position);
                 bundle.putString("url",article.getUrl());
                 webViewFragment.setArguments(bundle);
                 fragmentTransaction.replace(R.id.fragment_container , webViewFragment);
+                fragmentTransaction.addToBackStack(null);
                 fragmentTransaction.commit();
             }
         });
@@ -107,11 +107,10 @@ public class ItemFragment extends Fragment {
                         articleList.clear();
                     }
                     articleList = response.body().getArticle();
-                    myItemRecyclerViewAdapter = new MyItemRecyclerViewAdapter(articleList,requireContext());
-                    recyclerView.setAdapter(myItemRecyclerViewAdapter);
-                    myItemRecyclerViewAdapter.notifyDataSetChanged();
-                }else {
-
+//                    myItemRecyclerViewAdapter = new MyItemRecyclerViewAdapter(articleList,requireContext());
+//                    recyclerView.setAdapter(myItemRecyclerViewAdapter);
+//                    myItemRecyclerViewAdapter.notifyDataSetChanged();
+                    myItemRecyclerViewAdapter.updateNews(articleList);
                 }
             }
 
