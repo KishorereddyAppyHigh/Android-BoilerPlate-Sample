@@ -77,6 +77,9 @@ public class ItemFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         String defaultCountryName = sharedPreferenceUtil.getStringValue("country_Name");
+        if (defaultCountryName == null){
+            defaultCountryName = "INDIA";
+        }
         String countryName = null;
         if (defaultCountryName.equalsIgnoreCase("CANADA")){
             countryName = "ca";
