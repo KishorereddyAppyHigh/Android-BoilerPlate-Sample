@@ -25,6 +25,7 @@ public class GetNewsActivity extends AppCompatActivity {
     private MaterialToolbar materialToolbar;
     private Spinner spinner;
     private SharedPreferenceUtil sharedPreferenceUtil;
+    ItemFragment itemFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +33,7 @@ public class GetNewsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_get_news);
         materialToolbar = findViewById(R.id.topNewsToolBar);
         spinner = findViewById(R.id.countrySelection);
+        itemFragment = new ItemFragment();
         sharedPreferenceUtil = new SharedPreferenceUtil(GetNewsActivity.this);
         setSupportActionBar(materialToolbar);
         addNewsFragment();
@@ -39,10 +41,6 @@ public class GetNewsActivity extends AppCompatActivity {
     }
 
     private void showDropDownMenu() {
-        List<String> list = new ArrayList<>();
-        list.add("in");
-        list.add("ca");
-
         ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(GetNewsActivity.this ,
                 R.layout.support_simple_spinner_dropdown_item,getResources().getStringArray(R.array.countryNames));
         arrayAdapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
@@ -55,6 +53,23 @@ public class GetNewsActivity extends AppCompatActivity {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 Toast.makeText(GetNewsActivity.this, spinner.getSelectedItem().toString(), Toast.LENGTH_SHORT).show();
                 sharedPreferenceUtil.saveString("country_Name",spinner.getSelectedItem().toString());
+                String countryName = null;
+                if (spinner.getSelectedItem().toString().equalsIgnoreCase("CANADA")){
+                    countryName = "ca";
+                }
+                if (spinner.getSelectedItem().toString().equalsIgnoreCase("USA")){
+                    countryName = "us";
+                }
+                if (spinner.getSelectedItem().toString().equalsIgnoreCase("INDIA")){
+                    countryName = "in";
+                }
+                if (spinner.getSelectedItem().toString().equalsIgnoreCase("UK")){
+                    countryName = "gb";
+                }
+                if (spinner.getSelectedItem().toString().equalsIgnoreCase("AUSTRALIA")){
+                    countryName = "au";
+                }
+                itemFragment.loadJson(countryName);
             }
 
             @Override
@@ -68,7 +83,6 @@ public class GetNewsActivity extends AppCompatActivity {
     private void addNewsFragment() {
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        ItemFragment itemFragment = new ItemFragment();
         fragmentTransaction.replace(R.id.fragment_container,itemFragment);
         fragmentTransaction.commit();
     }
