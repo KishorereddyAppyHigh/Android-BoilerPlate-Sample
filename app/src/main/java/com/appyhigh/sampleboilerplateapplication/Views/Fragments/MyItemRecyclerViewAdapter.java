@@ -57,15 +57,8 @@ public class MyItemRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         final NewsViewHolder viewHolder = (NewsViewHolder) holder;
         Article article = articles.get(position);
-        RequestOptions requestOptions = new RequestOptions();
-        requestOptions.placeholder(Util.getRandomDrawbleColor());
-        requestOptions.error(Util.getRandomDrawbleColor());
-        requestOptions.diskCacheStrategy(DiskCacheStrategy.ALL);
-        requestOptions.centerCrop();
-
         Glide.with(context)
                 .load(article.getUrlToImage())
-                .apply(requestOptions)
                 .listener(new RequestListener<Drawable>() {
                     @Override
                     public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
