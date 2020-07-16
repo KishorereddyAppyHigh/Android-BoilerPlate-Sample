@@ -25,6 +25,7 @@ import com.appyhigh.sampleboilerplateapplication.Model.News;
 import com.appyhigh.sampleboilerplateapplication.R;
 import com.appyhigh.sampleboilerplateapplication.Views.Fragments.dummy.DummyContent;
 import com.appyhigh.sampleboilerplateapplication.Views.Listeners.NewsItemClickListener;
+import com.appyhigh.sampleboilerplateapplication.utility.SharedPreferenceUtil;
 import com.appyhigh.sampleboilerplateapplication.utility.Util;
 
 import java.util.ArrayList;
@@ -43,6 +44,7 @@ public class ItemFragment extends Fragment {
     private RecyclerView.LayoutManager layoutManager;
     private List<Article> articleList = new ArrayList<>();
     private MyItemRecyclerViewAdapter myItemRecyclerViewAdapter;
+    private SharedPreferenceUtil sharedPreferenceUtil;
 
     public ItemFragment() {
 
@@ -59,6 +61,7 @@ public class ItemFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_item_list, container, false);
+        sharedPreferenceUtil = new SharedPreferenceUtil(requireContext());
         recyclerView = view.findViewById(R.id.newsRecyclerView);
         layoutManager = new LinearLayoutManager(requireContext());
         recyclerView.setLayoutManager(layoutManager);
@@ -73,7 +76,24 @@ public class ItemFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        loadJson();
+        String defaultCountryName = sharedPreferenceUtil.getStringValue("country_Name");
+        String countryName = null;
+        if (defaultCountryName.equalsIgnoreCase("CANADA")){
+            countryName = "ca";
+        }
+        if (defaultCountryName.equalsIgnoreCase("USA")){
+            countryName = "us";
+        }
+        if (defaultCountryName.equalsIgnoreCase("INDIA")){
+            countryName = "in";
+        }
+        if (defaultCountryName.equalsIgnoreCase("UK")){
+            countryName = "gb";
+        }
+        if (defaultCountryName.equalsIgnoreCase("AUSTRALIA")){
+            countryName = "au";
+        }
+        loadJson(countryName);
         setOnItemClickListener();
     }
 
@@ -95,9 +115,9 @@ public class ItemFragment extends Fragment {
         });
     }
 
-    public void loadJson(){
+    public void loadJson(String countryName){
         ApiInterface apiInterface = ApiClient.getApiClient().create(ApiInterface.class);
-        String country = Util.getCountry();
+        String country = countryName;
         Call<News> call = apiInterface.getNews(country,API_KEY);
         call.enqueue(new Callback<News>(){
             @Override
